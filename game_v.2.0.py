@@ -1,4 +1,5 @@
 from random import *
+from sys import exit
 
 count = 0
 
@@ -7,27 +8,23 @@ def range_begin():
     x = input('Введите начало диапазона: ')
     if x.isdigit():
         return int(x)
-    if input('Вы ввели некоректное число. Хотели бы повторить? Введите да/нет ').lower() in ['да', 'lf']:
-        start()
-    return False
+    print('Вы ввели некоректное число.')
+    request()
 
 # Функция проверки конца диапазона (является ли введенные данные числом)
 def range_end():
     y = input('Введите конец диапазона: ')
     if y.isdigit():
         return int(y)
-    if input('Вы ввели некоректное число. Хотите начать заново? Введите да/нет ').lower() in ['да', 'lf']:
-        start()
-    return False
+    print('Вы ввели некоректное число.')
+    request()
 
 # Функция проверки корректности числа
 def is_valid(number, x, y):
     if str(number).isdigit() and x <= int(number) <= y:
         return True
-    if input(f'Вы ввели некоректное число. Необходимо ввести число от {x} до {y}.'
-             'Хотели бы повторить? Введите да/нет ').lower() in ['да', 'lf']:
-        start()
-    return False
+    print(f'Вы ввели некоректное число. Необходимо было ввести число от {x} до {y}.')
+    request()
 
 # Функция приветствия
 def hello():
@@ -44,8 +41,7 @@ def range_game():
     y = range_end()
     if x == y:
         print('Вы ввели одинаковое начало и конец. Такой диапазон недопустим.')
-        if input('Хотели начать заново? Введите да/нет ').lower() in ['да', 'lf']:
-            start()
+        request()
     elif x > y:
         x, y = y, x
     return x, y
@@ -61,11 +57,20 @@ def start():
 # Функция перезапуска игры
 def restart():
     global count
-    if input('Хотели начать заново? Введите да/нет ').lower() in ['да', 'lf']:
-        count = 0
+    count = 0
+    request()
+
+# Функция для запроса на повтор ввода новых чисел
+def request():
+    answer = input('Хотели бы повторить? Введите да/нет ')
+    if answer.lower() in ['да', 'lf']:
         start()
+    elif answer.lower() in ['нет', 'ytn']:
+        print('Очень жаль и спасибо за игру!')
+        exit()
     else:
-        print('Спасибо за игру!')
+        print('Я вас не понимаю! Ответьте на вопрос.')
+        request()
 
 # Функция вывода количества попыток
 def print_count(count):
